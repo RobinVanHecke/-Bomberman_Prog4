@@ -12,6 +12,6 @@ void dae::GameObject::Update(float)
 
 void dae::GameObject::Render() const
 {
-	const auto& pos = m_transform.GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
+	//const auto& pos = m_transform.GetPosition();
+	//Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
 }
