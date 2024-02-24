@@ -79,6 +79,8 @@ dae::Minigin::~Minigin()
 	SDL_Quit();
 }
 
+using namespace std::chrono;
+
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
@@ -89,23 +91,22 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();
-	float msPerFrame = 1.f / 144;
+	constexpr float msPerFrame = 1.f / 144;
 
 
 	while (doContinue)
 	{
-		const auto currentTime = std::chrono::high_resolution_clock::now();
-		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+		const auto currentTime = high_resolution_clock::now();
+		const float deltaTime = duration<float>(currentTime - lastTime).count();
 		lastTime = currentTime;
 	
 		doContinue = input.ProcessInput();
 
-		// FIXED TIME STEP IF NEEDED
+		sceneManager.Update(deltaTime);
 
-		sceneManager.Update();
 		renderer.Render();
 
-		const auto sleepTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::duration<float>(msPerFrame) - (currentTime -std::chrono::high_resolution_clock::now()));
+		const auto sleepTime = duration_cast<milliseconds>(duration<float>(msPerFrame) - (currentTime - high_resolution_clock::now()));
 
 		if (sleepTime.count() > 0)
 			std::this_thread::sleep_for(sleepTime);
