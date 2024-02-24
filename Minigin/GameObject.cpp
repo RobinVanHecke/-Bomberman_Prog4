@@ -1,17 +1,16 @@
-#include <string>
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
 
-dae::GameObject::~GameObject()
+#include "TransformComponent.h"
+
+dae::GameObject::GameObject()
 {
-	m_Components.erase(m_Components.begin(), m_Components.end());
-	m_Components.clear();
+	// GameObject always has a Transform Component
+	AddComponent<TransformComponent>()->SetPos(0.f, 0.f);
 }
 
 void dae::GameObject::Update(const float deltaT)
 {
-	for (const auto& component : m_Components)
+	for (auto& component : m_pComponents)
 	{
 		component.second->Update(deltaT);
 	}
@@ -19,7 +18,7 @@ void dae::GameObject::Update(const float deltaT)
 
 void dae::GameObject::Render() const
 {
-	for (const auto& component : m_Components)
+	for (const auto& component : m_pComponents)
 	{
 		component.second->Render();
 	}

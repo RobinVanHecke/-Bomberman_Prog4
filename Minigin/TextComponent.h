@@ -12,11 +12,10 @@ namespace dae
 	class TextComponent final : public BaseComponent
 	{
 	public:
-		explicit TextComponent(GameObject* gameObject) : BaseComponent(gameObject) {}
+		explicit TextComponent(GameObject* gameObject);// : BaseComponent(gameObject) {}
 
 		void SetText(const std::string& text);
-		void SetText(float floatToText);
-		void SetFont(const std::shared_ptr<Font>& font);
+		void SetFont(const std::shared_ptr<Font>& pFont);
 
 		void Update(float /*deltaT*/) override;
 
@@ -25,6 +24,6 @@ namespace dae
 		bool m_NeedsUpdate{ false };
 
 		std::string m_Text;
-		std::shared_ptr<Font> m_Font;
+		std::shared_ptr<Font> m_pFont;
 	};
 }

@@ -5,10 +5,15 @@
 #include <stdexcept>
 
 #include "Renderer.h"
-#include "GameObject.h"
 #include "Font.h"
+#include "GameObject.h"
 #include "TextureComponent.h"
 #include "Texture2D.h"
+
+dae::TextComponent::TextComponent(dae::GameObject* gameObject) :
+	BaseComponent(gameObject)
+{
+}
 
 void dae::TextComponent::SetText(const std::string& text)
 {
@@ -16,15 +21,9 @@ void dae::TextComponent::SetText(const std::string& text)
 	m_NeedsUpdate = true;
 }
 
-void dae::TextComponent::SetText(const float floatToText)
+void dae::TextComponent::SetFont(const std::shared_ptr<dae::Font>& pFont)
 {
-	m_Text = std::to_string(floatToText);
-	m_NeedsUpdate = true;
-}
-
-void dae::TextComponent::SetFont(const std::shared_ptr<dae::Font>& font)
-{
-	m_Font = font;
+	m_pFont = pFont;
 }
 
 void dae::TextComponent::Update(float /*deltaT*/)
@@ -32,14 +31,14 @@ void dae::TextComponent::Update(float /*deltaT*/)
 	if (m_NeedsUpdate)
 	{
 		constexpr SDL_Color color = { 255,255,255 }; // only white text is supported now
-		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
+		const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), color);
 
 		if (surf == nullptr)
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 		}
 
-		auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
+		auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
 
 		if (texture == nullptr)
 		{
@@ -47,7 +46,6 @@ void dae::TextComponent::Update(float /*deltaT*/)
 		}
 
 		SDL_FreeSurface(surf);
-
 
 		if (!m_Text.empty())
 		{

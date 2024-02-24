@@ -12,15 +12,15 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		GameObject() = default;
-		virtual ~GameObject();
+		GameObject();
+		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		virtual void Update(float deltaT);
-		virtual void Render() const;
+		void Update(float deltaT);
+		void Render() const;
 
 		void SetDeleted(bool deleted);
 		bool GetDeleted() const;
@@ -32,35 +32,34 @@ namespace dae
 	private:
 		bool m_Deleted{ false };
 
-		std::unordered_map<std::type_index, BaseComponent*> m_Components;
+		std::unordered_map<std::type_index, std::unique_ptr<BaseComponent>> m_pComponents;
 	};
 
 	template <typename Comp>
 	Comp* GameObject::AddComponent()
 	{
-		m_Components.emplace(typeid(Comp), new Comp{ this });
+		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Comp must derive from Component");
 
-		return dynamic_cast<Comp*>(m_Components.at(typeid(Comp)));
+		m_pComponents.emplace(typeid(Comp), std::make_unique<Comp>(this));
+
+		return dynamic_cast<Comp*>(m_pComponents.at(typeid(Comp)).get());
 	}
 
 	template <typename Comp>
 	Comp* GameObject::GetComponent() const
 	{
-		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Component must derive from ComponentBase");
+		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Comp must derive from ComponentBase");
 
-		const auto it = m_Components.find(typeid(Comp));
+		if (const auto it = m_pComponents.find(typeid(Comp)); it != m_pComponents.end())
+			return dynamic_cast<Comp*>(it->second.get());
 
-		if (it != m_Components.end())
-		{
-			return dynamic_cast<Comp*>(it->second);
-		}
 		return nullptr;
 	}
 
 	template <typename Comp>
 	void GameObject::RemoveComponent()
 	{
-		delete m_Components.at(typeid(Comp));
-		m_Components.erase(typeid(Comp));
+		if (const auto it = m_pComponents.find(typeid(Comp)); it != m_pComponents.end())
+			m_pComponents.erase(it);
 	}
 }
