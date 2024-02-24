@@ -3,15 +3,34 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-dae::GameObject::~GameObject() = default;
-
-void dae::GameObject::Update(float)
+dae::GameObject::~GameObject()
 {
-	
+	m_Components.erase(m_Components.begin(), m_Components.end());
+	m_Components.clear();
+}
+
+void dae::GameObject::Update(const float deltaT)
+{
+	for (const auto& component : m_Components)
+	{
+		component.second->Update(deltaT);
+	}
 }
 
 void dae::GameObject::Render() const
 {
-	//const auto& pos = m_transform.GetPosition();
-	//Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
+	for (const auto& component : m_Components)
+	{
+		component.second->Render();
+	}
+}
+
+void dae::GameObject::SetDeleted(const bool deleted)
+{
+	m_Deleted = deleted;
+}
+
+bool dae::GameObject::GetDeleted() const
+{
+	return m_Deleted;
 }

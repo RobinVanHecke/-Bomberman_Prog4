@@ -1,6 +1,9 @@
 #pragma once
 #include <memory>
-#include "Transform.h"
+#include <unordered_map>
+#include <typeindex>
+
+#include "BaseComponent.h"
 
 namespace dae
 {
@@ -19,6 +22,45 @@ namespace dae
 		virtual void Update(float deltaT);
 		virtual void Render() const;
 
+		void SetDeleted(bool deleted);
+		bool GetDeleted() const;
+
+		template<typename Comp> Comp* AddComponent();
+		template<typename Comp> Comp* GetComponent() const;
+		template<typename Comp> void RemoveComponent();
+
 	private:
+		bool m_Deleted{ false };
+
+		std::unordered_map<std::type_index, BaseComponent*> m_Components;
 	};
+
+	template <typename Comp>
+	Comp* GameObject::AddComponent()
+	{
+		m_Components.emplace(typeid(Comp), new Comp{ this });
+
+		return dynamic_cast<Comp*>(m_Components.at(typeid(Comp)));
+	}
+
+	template <typename Comp>
+	Comp* GameObject::GetComponent() const
+	{
+		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Component must derive from ComponentBase");
+
+		const auto it = m_Components.find(typeid(Comp));
+
+		if (it != m_Components.end())
+		{
+			return dynamic_cast<Comp*>(it->second);
+		}
+		return nullptr;
+	}
+
+	template <typename Comp>
+	void GameObject::RemoveComponent()
+	{
+		delete m_Components.at(typeid(Comp));
+		m_Components.erase(typeid(Comp));
+	}
 }
