@@ -10,18 +10,13 @@
 #include "TextureComponent.h"
 #include "Texture2D.h"
 
-dae::TextComponent::TextComponent(dae::GameObject* gameObject) :
-	BaseComponent(gameObject)
-{
-}
-
 void dae::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
 }
 
-void dae::TextComponent::SetFont(const std::shared_ptr<dae::Font>& pFont)
+void dae::TextComponent::SetFont(const std::shared_ptr<Font>& pFont)
 {
 	m_pFont = pFont;
 }
@@ -38,7 +33,7 @@ void dae::TextComponent::Update(float /*deltaT*/)
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 		}
 
-		auto texture = SDL_CreateTextureFromSurface(dae::Renderer::GetInstance().GetSDLRenderer(), surf);
+		auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
 
 		if (texture == nullptr)
 		{

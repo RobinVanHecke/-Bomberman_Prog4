@@ -84,16 +84,16 @@ using namespace std::chrono;
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
-
+	
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
-
+	
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	constexpr float msPerFrame = 1.f / 144;
-
-
+	
+	
 	while (doContinue)
 	{
 		const auto currentTime = high_resolution_clock::now();
@@ -101,13 +101,13 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		lastTime = currentTime;
 	
 		doContinue = input.ProcessInput();
-
+	
 		sceneManager.Update(deltaTime);
-
+	
 		renderer.Render();
-
+	
 		const auto sleepTime = duration_cast<milliseconds>(duration<float>(msPerFrame) - (currentTime - high_resolution_clock::now()));
-
+	
 		if (sleepTime.count() > 0)
 			std::this_thread::sleep_for(sleepTime);
 		

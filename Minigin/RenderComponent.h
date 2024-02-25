@@ -13,16 +13,15 @@ namespace dae
 	class RenderComponent final : public BaseComponent
 	{
 	public:
-		RenderComponent(GameObject* gameObject);
+		explicit RenderComponent(GameObject* gameObject);
 
 		void Render() const override;
-
 	private:
-		std::shared_ptr<TextureComponent> m_pTexture{ nullptr };
+		TextureComponent* m_pTexture{ nullptr };
 		std::shared_ptr<Texture2D> m_pTexture2D{ nullptr };
 
 
-		std::shared_ptr <TransformComponent> m_pTransform{ nullptr };
+		TransformComponent* m_pTransform{ nullptr };
 		glm::vec3 m_Position{ 0.f,0.f,0.f };
 	};
 

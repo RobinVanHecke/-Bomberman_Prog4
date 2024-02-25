@@ -38,7 +38,7 @@ namespace dae
 	template <typename Comp>
 	Comp* GameObject::AddComponent()
 	{
-		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Comp must derive from Component");
+		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Comp must derive from BaseComponent");
 
 		m_pComponents.emplace(typeid(Comp), std::make_unique<Comp>(this));
 
@@ -48,7 +48,7 @@ namespace dae
 	template <typename Comp>
 	Comp* GameObject::GetComponent() const
 	{
-		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Comp must derive from ComponentBase");
+		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Comp must derive from BaseComponent");
 
 		if (const auto it = m_pComponents.find(typeid(Comp)); it != m_pComponents.end())
 			return dynamic_cast<Comp*>(it->second.get());
