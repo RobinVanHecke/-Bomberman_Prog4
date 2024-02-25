@@ -90,7 +90,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& input = InputManager::GetInstance();
 	
 	bool doContinue = true;
-	auto lastTime = std::chrono::high_resolution_clock::now();
+	auto lastTime = high_resolution_clock::now();
 	constexpr float msPerFrame = 1.f / 144;
 	
 	

@@ -14,7 +14,7 @@ namespace dae
 		float GetFps() const { return m_Fps; }
 
 	private:
-		float m_Fps{ 0 };
+		float m_Fps{ 1 };
 		std::string m_FpsString;
 	};
 }
