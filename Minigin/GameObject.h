@@ -22,8 +22,8 @@ namespace dae
 		void Update(float deltaT);
 		void Render() const;
 
-		void SetDeleted(bool deleted);
-		bool GetDeleted() const;
+		void SetDeleted(const bool deleted) { m_Deleted = deleted; }
+		bool GetDeleted() const { return m_Deleted; }
 
 		template<typename Comp> Comp* AddComponent();
 		template<typename Comp> Comp* GetComponent() const;
@@ -38,7 +38,7 @@ namespace dae
 	template <typename Comp>
 	Comp* GameObject::AddComponent()
 	{
-		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Comp must derive from BaseComponent");
+		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Component must derive from BaseComponent");
 
 		m_pComponents.emplace(typeid(Comp), std::make_unique<Comp>(this));
 
@@ -48,7 +48,7 @@ namespace dae
 	template <typename Comp>
 	Comp* GameObject::GetComponent() const
 	{
-		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Comp must derive from BaseComponent");
+		static_assert(std::is_base_of_v<BaseComponent, Comp>, "Component must derive from BaseComponent");
 
 		if (const auto it = m_pComponents.find(typeid(Comp)); it != m_pComponents.end())
 			return dynamic_cast<Comp*>(it->second.get());

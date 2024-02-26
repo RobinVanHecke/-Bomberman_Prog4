@@ -8,7 +8,9 @@ namespace dae
 	class TransformComponent final : public BaseComponent
 	{
 	public:
-		explicit TransformComponent(GameObject* gameObject) : BaseComponent(gameObject) {}
+		// default pos is 0,0,0
+		explicit TransformComponent(GameObject* gameObject) :
+			BaseComponent(gameObject), m_Position(0.f, 0.f, 0.f) {}
 
 		void SetPos(glm::vec3 newPos);
 		void SetPos(float newX, float newY, float newZ = 0.f);

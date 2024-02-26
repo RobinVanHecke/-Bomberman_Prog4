@@ -24,13 +24,3 @@ void dae::GameObject::Render() const
 		component.second->Render();
 	}
 }
-
-void dae::GameObject::SetDeleted(const bool deleted)
-{
-	m_Deleted = deleted;
-}
-
-bool dae::GameObject::GetDeleted() const
-{
-	return m_Deleted;
-}

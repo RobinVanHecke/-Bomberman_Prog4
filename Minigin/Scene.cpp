@@ -26,7 +26,7 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
-void Scene::Update(float deltaT)
+void Scene::Update(const float deltaT)
 {
 	for(auto& object : m_objects)
 	{

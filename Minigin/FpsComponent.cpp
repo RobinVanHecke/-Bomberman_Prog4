@@ -6,6 +6,9 @@
 
 dae::FpsComponent::FpsComponent(GameObject* gameObject) : BaseComponent(gameObject)
 {
+	//FpsComponent cannot exist without a TextComponent
+	gameObject->AddComponent<TextComponent>();
+
 	m_pTextComponent = GetOwner()->GetComponent<TextComponent>();
 }
 

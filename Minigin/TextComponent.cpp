@@ -7,8 +7,18 @@
 #include "Renderer.h"
 #include "Font.h"
 #include "GameObject.h"
+#include "ResourceManager.h"
 #include "TextureComponent.h"
 #include "Texture2D.h"
+
+dae::TextComponent::TextComponent(GameObject* gameObject) : BaseComponent(gameObject)
+{
+	// TextComponent cannot exist without a TextureComponent
+	gameObject->AddComponent<TextureComponent>();
+
+	// default font, because a text always needs a font to function
+	m_pFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+}
 
 void dae::TextComponent::SetText(const std::string& text)
 {
