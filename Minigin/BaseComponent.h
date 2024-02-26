@@ -10,7 +10,6 @@ namespace dae
 		virtual void Update(float /*deltaT*/) {}
 		virtual void Render() const {}
 
-		BaseComponent() = default;
 		explicit BaseComponent(GameObject* gameObject) : m_pOwner(gameObject) {}
 		virtual ~BaseComponent() = default;
 
