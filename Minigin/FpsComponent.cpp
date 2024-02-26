@@ -3,6 +3,12 @@
 #include "GameObject.h"
 #include "TextComponent.h"
 
+
+dae::FpsComponent::FpsComponent(GameObject* gameObject) : BaseComponent(gameObject)
+{
+	m_pTextComponent = GetOwner()->GetComponent<TextComponent>();
+}
+
 void dae::FpsComponent::Update(const float deltaT)
 {
 	m_Fps = 1 / deltaT;
@@ -10,5 +16,6 @@ void dae::FpsComponent::Update(const float deltaT)
 	m_Fps = floor(m_Fps);
 
 	m_FpsString = std::to_string(static_cast<int>(m_Fps));
-	GetOwner()->GetComponent<TextComponent>()->SetText(m_FpsString);
+
+	m_pTextComponent->SetText(m_FpsString);
 }
