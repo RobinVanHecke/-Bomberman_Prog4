@@ -11,7 +11,7 @@ namespace dae
 	class TextureComponent final : public BaseComponent
 	{
 	public:
-		TextureComponent(GameObject* gameObject) : BaseComponent(gameObject) {}
+		explicit TextureComponent(GameObject* gameObject) : BaseComponent(gameObject) {}
 
 		void SetTexture(const std::shared_ptr<Texture2D>& texture);
 		void SetTexture(const std::string& filename);

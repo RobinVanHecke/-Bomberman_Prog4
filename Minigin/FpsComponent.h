@@ -11,7 +11,7 @@ namespace dae
 	class FpsComponent final : public BaseComponent
 	{
 	public:
-		FpsComponent(GameObject* gameObject);
+		explicit FpsComponent(GameObject* gameObject);
 
 		void Update(float deltaT) override;
 		float GetFps() const { return m_Fps; }

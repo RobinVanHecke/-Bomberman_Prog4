@@ -23,6 +23,5 @@ namespace dae
 
 	private:
 		GameObject* m_pOwner{ nullptr };
-
 	};
 }
