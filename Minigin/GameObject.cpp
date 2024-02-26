@@ -1,5 +1,6 @@
 #include "GameObject.h"
 
+#include "RenderComponent.h"
 #include "TransformComponent.h"
 
 dae::GameObject::GameObject()
