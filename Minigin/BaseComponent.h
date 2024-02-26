@@ -7,10 +7,6 @@ namespace dae
 	class BaseComponent
 	{
 	public:
-		virtual void Update(float /*deltaT*/) {}
-		virtual void Render() const {}
-
-		explicit BaseComponent(GameObject* gameObject) : m_pOwner(gameObject) {}
 		virtual ~BaseComponent() = default;
 
 		BaseComponent(const BaseComponent& other) = delete;
@@ -18,7 +14,13 @@ namespace dae
 		BaseComponent& operator=(const BaseComponent& other) = delete;
 		BaseComponent& operator=(BaseComponent&& other) = delete;
 
+		virtual void Update(float /*deltaT*/) {}
+		virtual void Render() const {}
+
+		
+
 	protected:
+		explicit BaseComponent(GameObject* gameObject) : m_pOwner(gameObject) {}
 		GameObject* GetOwner() const { return m_pOwner; }
 
 	private:

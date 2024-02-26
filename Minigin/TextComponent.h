@@ -23,7 +23,7 @@ namespace dae
 	private:
 		bool m_NeedsUpdate{ false };
 
-		std::string m_Text = " ";
+		std::string m_Text;
 		std::shared_ptr<Font> m_pFont;
 	};
 }
