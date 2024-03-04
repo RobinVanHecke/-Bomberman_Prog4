@@ -17,6 +17,9 @@ namespace dae
 		virtual void Update(float /*deltaT*/) {}
 		virtual void Render() const {}
 
+		void SetDeleted(const bool deleted) { m_Deleted = deleted; }
+		bool GetDeleted() const { return m_Deleted; }
+
 		
 
 	protected:
@@ -24,6 +27,8 @@ namespace dae
 		GameObject* GetOwner() const { return m_pOwner; }
 
 	private:
+		bool m_Deleted{ false };
+
 		GameObject* m_pOwner{ nullptr };
 	};
 }

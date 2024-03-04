@@ -32,6 +32,9 @@ void Scene::Update(const float deltaT)
 	{
 		object->Update(deltaT);
 	}
+
+	// delete objects
+	std::erase_if(m_objects, [&](const std::shared_ptr<GameObject>& object) {return object->GetDeleted(); });
 }
 
 void Scene::Render() const

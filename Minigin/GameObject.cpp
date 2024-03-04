@@ -15,6 +15,9 @@ void dae::GameObject::Update(const float deltaT)
 	{
 		component.second->Update(deltaT);
 	}
+
+	// delete Components
+	std::erase_if(m_pComponents, [&](const std::shared_ptr<GameObject>& object) {return object->GetDeleted(); });
 }
 
 void dae::GameObject::Render() const
